@@ -12,7 +12,7 @@ export default {
     if (result.ok) return await result.json();
     return null;
   },
-  saveContests : async (data) => {
-    console.dir(data);
+  saveContests : async () => {
+    //console.dir(data);
   }
 }
