@@ -1,13 +1,12 @@
-<template >
-  <div class="p-1" v-if="team !== null">
-    <img v-bind:src="`https://cdn2.rebbl.net/images/races/${team.team.idraces}.png`" style="height:40px" />
-    <span class="text-info">{{team.team.name}}</span>
-    <img v-bind:src="`https://cdn2.rebbl.net/images/logo/256x256/logo_${team.team.logo.toLowerCase()}.png`" style="height:40px" />
-    <br>
-    <span class="badge badge-success"> /u/{{reddit}}</span>
-    <span class="badge badge-warning"> {{team.coach.name}}</span>
-    <span class="badge badge-info">TV: {{team.team.nextMatchTV || team.team.value}}</span>
-  </div>
+<template lang="pug">
+  .p-1(v-if="team !== null")
+    img(v-bind:src="`https://cdn2.rebbl.net/images/races/${team.team.idraces}.png`" style="height:40px")
+    span.text-info {{team.team.name}}
+    img(v-bind:src="`https://cdn2.rebbl.net/images/logo/256x256/logo_${team.team.logo.toLowerCase()}.png`" style="height:40px")
+    br
+    span.badge.badge-warning.mx-1  {{team.coach.name}}
+    span.badge.badge-info.mx-1 TV: {{team.team.nextMatchTV || team.team.value}}
+
 </template>
 
 <script>
