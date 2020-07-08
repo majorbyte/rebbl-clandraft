@@ -24,8 +24,7 @@
           p Drag the teams to their corresponding game. Add used powers, inform other Clan leader once the Draft Result is saved.
 
           button.btn.btn-primary(@click='handleSave()' v-if="!isUnchanged() && !matchup.drafted") save
-          button.btn.btn-primary.mx-1(@click='handleConfirm()' v-if="isUnchanged() && !matchup.drafted") confirm
-
+          button.btn.btn-primary.mx-1(@click='handleConfirm()' v-if="isUnchanged() && !matchup.drafted" :disabled="disableConfirm") confirm
 
         template(v-if='matchup !== null')
           .row
@@ -74,13 +73,13 @@
               hr
               h3 Used Powers
               powers(:powers='usedPowers.home' :home='true' :unuse='unusePower')
-            .col-6
+            .col-6.text-right
               .row.col-12
-                h3.col-12.text-right Available Powers
+                h3.col-12 Available Powers
               powers(:powers='matchup.away.clan.powers' :home='false' :use='usePower')
               hr
               .row.col-12
-                h3.col-12.text-right Used Powers
+                h3.col-12 Used Powers
               powers(:powers='usedPowers.away' :home='false' :unuse='unusePower')
     Toasts(
       :show-progress="false"
@@ -109,7 +108,8 @@ export default {
   }),
   data: function () {
     return { 
-      over: false
+      over: false,
+      disableConfirm:false,
      };
   },  
   methods: {
@@ -120,9 +120,12 @@ export default {
       else this.$toast.error(result);
     },
     handleConfirm: async function(){
+      this.disableConfirm = true;
       let result = await this.confirm();
       if (result === true) this.$toast.success("Confirmed successfully.");
       else this.$toast.error(result);
+
+      this.loadDraft();
     },
     handleDragover: function(side, index, data,event){
       this.over = index;
@@ -134,15 +137,18 @@ export default {
       if (!event.target.classList.contains("drag")){
         event.preventDefault();
       }
+    },
+    loadDraft: async function(){
+      const queryString = window.location.search.replace("/clandraft","").split("/");
+      if (queryString.length > 0){
+          const params = new URL(window.location).searchParams;
+          this.$store.dispatch(`draft/getMatchup`,{division: params.get("division"), round: Number(params.get("round")), house: Number(params.get("house"))});
+      }
+      else this.$store.dispatch('draft/getMatchup');
     }
   },
   created () {
-    const queryString = window.location.search.replace("/clandraft","").split("/");
-    if (queryString.length > 0){
-        const params = new URL(window.location).searchParams;
-        this.$store.dispatch(`draft/getMatchup`,{division: params.get("division"), round: Number(params.get("round")), house: Number(params.get("house"))});
-    }
-    else this.$store.dispatch('draft/getMatchup');
+    this.loadDraft();
     this.$store.dispatch('powers/getPowers');
   }
 };

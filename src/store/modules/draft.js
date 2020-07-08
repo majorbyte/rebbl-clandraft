@@ -112,17 +112,17 @@ const mutations = {
     else
       state.contests[index].awayTeam = team ? team.team :null;
   },
-  updatePower(state,{power, home, team, player}){
+  updatePower(state,{power, home, team, player, player2}){
     if (home){
       if (team)
-        state.usedPowers.home[power].push({team,player: player || null});
+        state.usedPowers.home[power].push({team,player: player || null, player2: player2 || null});
       else
         state.usedPowers.home[power]++;
       state.matchup.home.clan.powers[power]--;
     }
     else{
       if (team)
-        state.usedPowers.away[power].push({team,player: player || null});
+        state.usedPowers.away[power].push({team,player: player || null, player2: player2 || null});
       else
         state.usedPowers.away[power]++;
       state.matchup.away.clan.powers[power]--;
