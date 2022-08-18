@@ -10,7 +10,17 @@ const newPowers = () =>{
     inspiration:[],
     lastMinuteSwitch:0,
     miscommunication:0,
-    newBlood:0
+    newBlood:0,
+    confusion:0,
+    hatredOfPublicTransport:0,
+    stuntyHatredOfPublicTransport:0,
+    stuntyInspiration:[],
+    stuntyLastMinuteSwitch:0,
+    stuntyMiscommunication:0,
+    stuntyAssassination:[],
+    stuntyBadInducementDeal:0,
+    stuntyConfusion:0,
+    financialFairPlay:0
   }
 }
 

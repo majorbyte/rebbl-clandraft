@@ -2,10 +2,10 @@
   div
     template(v-for="power in Object.keys(powers)")
       template(v-for="i in powers[power]")
-        template(v-if="['assassination','inspiration','bloodSacrifice'].includes(power)")
+        template(v-if="['assassination','inspiration','bloodSacrifice','stuntyAssassination','stuntyInspiration'].includes(power)")
           template(v-if="use")
             button.btn.btn-outline-info.btn-sm.m-1(type="button" @click="currentPower=power;" data-toggle="modal" v-bind:data-target="`#player-${id}`") {{powerName(power)}} 
-          template(v-else="unuse")
+          template(v-else-if="unuse")
             .border.border-info.text-info.m-1.d-inline-block.align-top(style="width: max-content;border-radius: .2rem;padding: .25rem .5rem" @click="unuse({power,home})")
               h5 {{powerName(power)}} 
               h6 {{i.team.name}}
@@ -16,13 +16,12 @@
         template(v-else-if="['emergencyRnR'].includes(power)")
           template(v-if="use")
             button.btn.btn-outline-info.btn-sm.m-1(type="button" @click="currentPower=power;" data-toggle="modal" v-bind:data-target="`#team-${id}`") {{powerName(power)}} 
-          template(v-else="unuse")
+          template(v-else-if="unuse")
             .border.border-info.text-info.m-1.d-inline-block.align-top(style="width: max-content;border-radius: .2rem;padding: .25rem .5rem" @click="unuse({power,home})")
               h5 {{powerName(power)}} 
               h6 {{i.team.name}}
-        template(v-else-if="['badInducementDeal','lastMinuteSwitch','miscommunication'].includes(power)")
+        template(v-else-if="['badInducementDeal','lastMinuteSwitch','miscommunication','stuntyBadInducementDeal','stuntyLastMinuteSwitch','stuntyMiscommunication','confusion','stuntyConfusion','hatredOfPublicTransport','stuntyHatredOfPublicTransport','financialFairPlay'].includes(power)")
           button.btn.btn-outline-info.btn-sm.m-1(type="button" v-bind:key="power+i" @click="use ? use({power,home}) : unuse({power,home})") {{powerName(power)}} 
-
 
     .modal.fade(tabindex='-1' role='dialog' v-bind:id="`player-${id}`")
       .modal-dialog.modal-dialog-centered(role='document')
@@ -38,7 +37,7 @@
               .input-group-prepend
                 span#home.input-group-text Select team
               select.form-control(v-model='selectedTeam' @change='loadPlayers()')
-                template(v-if='currentPower === "assassination"')
+                template(v-if='["assassination","stuntyAssassination"].indexOf(currentPower) > -1')
                   option(v-for='team in (home ? awayTeams() : homeTeams())' v-bind:value='{id: team.team.id, name: team.team.name, coachId: team.team.idcoach}' v-bind:key='team.team.id') {{ team.team.name }}
                 template(v-else)
                   option(v-for='team in (home ? homeTeams() : awayTeams())' v-bind:value='{id: team.team.id, name: team.team.name, coachId: team.team.idcoach}' v-bind:key='team.team.id') {{ team.team.name }}

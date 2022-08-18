@@ -7,7 +7,7 @@ const state = {
 // getters
 const getters = {
   powerName: state => key => state.powers.find(x => x.key === key) ?  state.powers.find(x => x.key === key).name : "",
-  powerDescription: state => key => state.powers.find(x => x.key === key) ? state.powers.find(x => x.key === key).description : "",
+  powerDescription: state => key => state.powers.find(x => x.key === key) ? state.powers.find(x => x.key === key).description : ""
 }
 
 // actions
